@@ -36,7 +36,8 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="text" name="email" class="form-control" id="inputEmail3 email" value="lisisi@126.com">
+                        <input type="text" name="email" class="form-control email" id="inputEmail3 email"
+                            value="lisisi@126.com">
                     </div>
                 </div>
 
@@ -44,7 +45,8 @@
                     <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
                     <div class="col-sm-10">
                         <img src="images/2.jpg" alt="" class="user_pic"><br>
-                        <label for="exampleInputFile"><img src="./images/uploadicon.png" style="width: 50px" alt=""></label>
+                        <label for="exampleInputFile"><img src="./images/uploadicon.png" style="width: 50px"
+                                alt=""></label>
                         <input type="file" style="opacity: 0" name="user_pic" id="exampleInputFile">
                     </div>
                 </div>
@@ -52,7 +54,8 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
                     <div class="col-sm-4">
-                        <input type="password" name="password" class="form-control password" id="inputEmail3" value="12345678">
+                        <input type="password" name="password" class="form-control password" id="inputEmail3"
+                            value="12345678">
                     </div>
                 </div>
 
@@ -104,16 +107,53 @@
             });
 
             // 图片预览 change事件
-            $('#exampleInputFile').on('change',function(){
+            $('#exampleInputFile').on('change', function () {
                 // 获取input:file选中的图片文件,     this.files[0]
                 var icon = this.files[0];
                 // 根据图片创建一个url
                 var url = URL.createObjectURL(icon);
                 //把这个url交给预览用的img
-                $('img.user_pic').attr('src',url);
+                $('img.user_pic').attr('src', url);
             });
 
+            /* //给修改按钮设置一个点击事件,注意取消默认 跳转.
+            //创建一个formData获取form表单里面的所有数据
+            //发送ajax请求 */
 
+            /* 编辑用户信息
+            请求地址：http://localhost:8000/admin/userinfo_edit 网络地址: https://autumnfish.cn/big/admin/userinfo_edit
+            请求方式：post
+            请求参数：使用 formdata 提交
+            名称	类型	说明
+            username	string	用户名称
+            nickname	string	用户昵称
+            email	string	用户邮箱
+            user_pic	string	用户图片地址
+            password	string	用户密码
+            返回数据：
+            名称	类型	说明
+            msg	string	文字信息 ‘修改成功’ ‘修改失败’ */
+
+
+            //给修改按钮设置一个点击事件,注意取消默认 跳转.
+            $('.btn-success').on('click', function (e) {
+                e.preventDefault();
+                //创建一个formData获取form表单里面的所有数据
+                var formData = new FormData($('form')[0])//注意括号里面的必须是DOM对象
+                // 发送Ajax请求
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:8000/admin/userinfo_edit',
+                    data: formData,
+                    contentType: false,//意思是不要给我设置请求头
+                    processData: false,//意思是请求头已经没有,就不要将返回的数据转换成key=value的字符串
+                    success: function (backData) {
+                        // console.log(backData);
+                        
+                    }
+
+                });
+            });
 
         });
 
